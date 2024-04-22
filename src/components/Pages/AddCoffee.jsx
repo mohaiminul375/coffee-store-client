@@ -1,17 +1,37 @@
 // import React from 'react';
 import { IoArrowBack } from "react-icons/io5";
-
+import Swal from 'sweetalert2'
 import addCoffeeBg from "../../assets/more/addCoffeeBg.png";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 const AddCoffee = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit,reset } = useForm();
 
   const onSubmit = (newCoffee) => {
+    console.log(newCoffee);
+    fetch("http://localhost:5000/coffee", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newCoffee),
+    })
+      .then((res) => res.json())
+      .then((data) => {console.log("response form post method", data)
+      if(data.insertedId){
+        reset();
+        Swal.fire({
+            title: 'success!',
+            text: 'Coffee Added Successfully',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            successButtonColor:'#331A15'
+          })
+    }
+    }
     
-    console.log(newCoffee)
-
-};
+    );
+  };
 
   return (
     <div
@@ -19,7 +39,7 @@ const AddCoffee = () => {
       className="bg-cover bg-no-repeat"
     >
       {/* form section*/}
-      <div className="md:max-w-4xl mx-auto">
+      <div className="md:max-w-5xl mx-auto">
         <Link to="/">
           <h2 className="pt-12 flex items-center font-medium text-[#374151] font-rancho text-2xl">
             <IoArrowBack /> Back to home
