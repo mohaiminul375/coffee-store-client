@@ -4,7 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const CoffeeCard = ({ coffee }) => {
+const CoffeeCard = ({ coffee,coffees,setCoffees }) => {
   console.log("response form card", coffee);
   const { _id, chef, name, photo, supplier } = coffee;
   const handleDelete = (_id) => {
@@ -32,25 +32,27 @@ const CoffeeCard = ({ coffee }) => {
                 icon: "success",
               });
             }
+            const remain = coffees.filter(coffee=>coffee._id !== _id);
+            setCoffees(remain);
           });
       }
     });
   };
   return (
-    <div className="card md:card-side md:justify-between bg-base-100 shadow-xl mt-5 bg-[#F5F4F1]">
+    <div className="card md:card-side md:justify-between shadow-xl mt-5 bg-[#F5F4F1]">
       <figure>
         <img src={photo} alt="Movie" />
       </figure>
       <div className="flex items-center justify-between w-full">
-        <div className="md:ml-8">
-          <h2 className="card-title">
-            <span>Name</span>:{name}
-          </h2>
-          <p>
-            <span>Chef</span>:{chef}
+        <div className="md:ml-8 space-y-2">
+          <p className="text-[#5C5B5B]">
+            <span className="font-bold text-black">Name</span>: {name}
           </p>
-          <p>
-            <span>Supplier</span>:{supplier}
+          <p className="text-[#5C5B5B]">
+            <span className="font-bold text-black">Chef</span>: {chef}
+          </p>
+          <p className="text-[#5C5B5B]">
+            <span className="font-bold text-black">Supplier</span>: {supplier}
           </p>
         </div>
         <div className="flex mr-12 text-2xl flex-col space-y-4">
@@ -85,5 +87,7 @@ const CoffeeCard = ({ coffee }) => {
 
 CoffeeCard.propTypes = {
   coffee: PropTypes.object,
+  coffees:PropTypes.array,
+  setCoffees:PropTypes.func
 };
 export default CoffeeCard;

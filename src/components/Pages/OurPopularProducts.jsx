@@ -1,9 +1,12 @@
 import { Link, useLoaderData } from "react-router-dom";
 import { LiaMugHotSolid } from "react-icons/lia";
 import CoffeeCard from "./CoffeeCard";
+import { useState } from "react";
 
 const OurPopularProducts = () => {
-  const coffees = useLoaderData();
+  const loadedCoffees = useLoaderData();
+  const [coffees,setCoffees]=useState(loadedCoffees)
+
 //   console.log(coffees);
   return (
     <div className="mt-28 md:max-w-6xl mx-auto">
@@ -22,7 +25,11 @@ const OurPopularProducts = () => {
       {/* coffees */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
        {
-        coffees.map(coffee=><CoffeeCard key={coffee._id} coffee={coffee}></CoffeeCard>)
+        coffees.map(coffee=><CoffeeCard
+           key={coffee._id}
+           coffees={coffees}
+           setCoffees={setCoffees}
+           coffee={coffee}></CoffeeCard>)
        }
       </div>
     </div>
